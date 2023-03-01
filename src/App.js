@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { useState } from "react";
+import Todo from "./views/Todo";
 function App() {
   let [name, setName] = useState("Vương");
   const [address, setAddress] = useState();
@@ -8,14 +9,22 @@ function App() {
     {
       id: "todo1",
       works: "learn ReactJS",
+      type: "Vương",
     },
     {
       id: "todo2",
       works: "Homework",
+      type: "Vương",
     },
     {
       id: "todo3",
       works: "play game",
+      type: "Huy",
+    },
+    {
+      id: "todo4",
+      works: "play football",
+      type: "Vương",
     },
   ]);
   const handleOnClick = (event) => {
@@ -37,15 +46,12 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello world with React and {name}</h1>
-        <div className="todo-container">
-          {todos.map((todo) => {
-            return (
-              <div className="todo-child" key={todo.id}>
-                {todo.works}
-              </div>
-            );
-          })}
-        </div>
+        <Todo propsData={todos} title="All Todos"></Todo>
+        <hr />
+        <Todo
+          propsData={todos.filter((item) => item.type === "Vương")}
+          title="Filter Todos"
+        ></Todo>
         <div className="">
           <input
             type="text"
