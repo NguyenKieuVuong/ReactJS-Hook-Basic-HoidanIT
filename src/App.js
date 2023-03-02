@@ -34,23 +34,34 @@ function App() {
     }
     //setName(address);
     //hook not merge state
-    let newTodo = { id: "abc", works: address };
+    let newTodo = { id: Math.floor(Math.random() * 1000 + 1), works: address };
     setTodos([...todos, newTodo]);
     setAddress("");
   };
   const handleOnChange = (event) => {
     setAddress(event.target.value);
   };
+  const deleteDataTodo = (id) => {
+    let currentTodos = todos;
+    currentTodos = currentTodos.filter((item) => item.id !== id);
+    setTodos(currentTodos);
+  };
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello world with React and {name}</h1>
-        <Todo propsData={todos} title="All Todos"></Todo>
+        <Todo
+          propsData={todos}
+          title="All Todos"
+          deleteDataTodo={deleteDataTodo}
+        ></Todo>
+
         <hr />
         <Todo
           propsData={todos.filter((item) => item.type === "Vương")}
           title="Filter Todos"
+          deleteDataTodo={deleteDataTodo}
         ></Todo>
         <div className="">
           <input
