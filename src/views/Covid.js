@@ -4,12 +4,13 @@ import axios from "axios";
 import moment from "moment";
 const Covid = () => {
   const [dataCovid, setdataCovid] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   //componentDidMount;
   useEffect(async () => {
     try {
       let res = await axios.get(
-        "https://api.covid19api.com/country/vietnamaa?from=2021-10-01T00:00:00Z&to=2021-10-20T00:00:00Z"
+        "https://api.covid19api.com/country/vietnam?from=2021-10-01T00:00:00Z&to=2021-10-20T00:00:00Z"
       );
       //console.log("check res ", res.data);
       //Neu có res tra ve va res.data co du lieu se tra ve res.data neu khong tra ve rong []
@@ -26,10 +27,13 @@ const Covid = () => {
         data = data.reverse();
       }
       setdataCovid(data);
-      setLoading(false);
+      setIsLoading(false);
+      setIsError(false);
     } catch (e) {
       console.log(">>> check error: ", e);
       console.log(e.name, "-", e.message);
+      setIsError(true);
+      setIsLoading(false);
     }
     // setTimeout(async () => {}, 1000);
   }, []);
@@ -48,7 +52,8 @@ const Covid = () => {
           </tr>
         </thead>
         <tbody>
-          {loading === false &&
+          {isError === false &&
+            isLoading === false &&
             dataCovid &&
             dataCovid.length > 0 &&
             dataCovid.map((item) => {
@@ -62,10 +67,17 @@ const Covid = () => {
                 </tr>
               );
             })}
-          {loading === true && (
+          {isLoading === true && (
             <tr>
               <td colSpan={5} className="text-center">
                 Loading...
+              </td>
+            </tr>
+          )}
+          {isError === true && (
+            <tr>
+              <td colSpan={5} className="text-center">
+                Something Wrong...
               </td>
             </tr>
           )}
