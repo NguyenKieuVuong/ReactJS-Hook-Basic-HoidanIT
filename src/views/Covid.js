@@ -4,24 +4,30 @@ import axios from "axios";
 import moment from "moment";
 const Covid = () => {
   const [dataCovid, setdataCovid] = useState([]);
+  const [loading, setLoading] = useState(true);
   //componentDidMount;
   useEffect(async () => {
-    let res = await axios.get(
-      "https://api.covid19api.com/country/vietnam?from=2021-10-01T00:00:00Z&to=2021-10-20T00:00:00Z"
-    );
-    //console.log("check res ", res.data);
-    //Neu có res tra ve va res.data co du lieu se tra ve res.data neu khong tra ve rong []
-    let data = res && res.data ? res.data : [];
-    //neu data khong rong [] va data du lieu ban ghi > 0 se loc qua data ham map
-    if (data && data.length > 0) {
-      data.map((item) => {
-        //get item date item.Date va dung thu vien moment de format lai data date
-        item.Date = moment(item.Date).format("DD/MM/YYYY");
-        // tra luu nguoc lai ve du lieu item tren dong
-        return item;
-      });
-    }
-    setdataCovid(data);
+    setTimeout(async () => {
+      let res = await axios.get(
+        "https://api.covid19api.com/country/vietnam?from=2021-10-01T00:00:00Z&to=2021-10-20T00:00:00Z"
+      );
+      //console.log("check res ", res.data);
+      //Neu có res tra ve va res.data co du lieu se tra ve res.data neu khong tra ve rong []
+      let data = res && res.data ? res.data : [];
+      //neu data khong rong [] va data du lieu ban ghi > 0 se loc qua data ham map
+      if (data && data.length > 0) {
+        data.map((item) => {
+          //get item date item.Date va dung thu vien moment de format lai data date
+          item.Date = moment(item.Date).format("DD/MM/YYYY");
+          // tra luu nguoc lai ve du lieu item tren dong
+          return item;
+        });
+        //dao nguoc data tu duoi len tren
+        data = data.reverse();
+      }
+      setdataCovid(data);
+      setLoading(false);
+    }, 5000);
   }, []);
   return (
     <div>
@@ -38,7 +44,8 @@ const Covid = () => {
           </tr>
         </thead>
         <tbody>
-          {dataCovid &&
+          {loading === false &&
+            dataCovid &&
             dataCovid.length > 0 &&
             dataCovid.map((item) => {
               return (
@@ -51,6 +58,13 @@ const Covid = () => {
                 </tr>
               );
             })}
+          {loading === true && (
+            <tr>
+              <td colSpan={5} className="text-center">
+                Loading...
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
