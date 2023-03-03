@@ -2,14 +2,14 @@ import React from "react";
 
 const Todo = (props) => {
   //const todos = props.propsData;
-  const { todos, works, deleteDataTodo } = props;
+  const { propsData, deleteDataTodo } = props;
   const handleOnClickDelete = (id) => {
-    // alert(id);
-    props.c(id);
+    //alert(id);
+    deleteDataTodo(id);
   };
   return (
     <div className="todo-container">
-      {todos.map((todo) => {
+      {propsData.map((todo) => {
         return (
           <div className="todo-child" key={todo.id}>
             {todo.works}&nbsp;&nbsp;

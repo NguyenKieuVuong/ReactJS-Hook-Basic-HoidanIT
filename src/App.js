@@ -1,7 +1,8 @@
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import { useState } from "react";
 import Todo from "./views/Todo";
+import Covid from "./views/Covid";
 function App() {
   let [name, setName] = useState("Vương");
   const [address, setAddress] = useState();
@@ -51,6 +52,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello world with React and {name}</h1>
+        <Covid></Covid>
         <Todo
           propsData={todos}
           title="All Todos"
