@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import moment from "moment";
+
 const useFetch = (url) => {
-  const [dataCovid, setdataCovid] = useState([]);
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  useEffect(async () => {
+  useEffect(() => {
     try {
       async function fetchData() {
         // You can await here
         let res = await axios.get(url);
-        
+
         //console.log("check res ", res.data);
         //Neu có res tra ve va res.data co du lieu se tra ve res.data neu khong tra ve rong []
         let data = res && res.data ? res.data : []; // true,false
@@ -25,10 +26,9 @@ const useFetch = (url) => {
           //dao nguoc data tu duoi len tren
           data = data.reverse();
         }
-        setdataCovid(data);
+        setData(data);
         setIsLoading(false);
         setIsError(false);
-        // ...
       }
       fetchData();
     } catch (e) {
@@ -38,8 +38,9 @@ const useFetch = (url) => {
       setIsLoading(false);
     }
   }, []);
+
   return {
-    dataCovid,
+    data,
     isLoading,
     isError,
   };

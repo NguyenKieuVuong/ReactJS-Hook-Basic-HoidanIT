@@ -3,6 +3,7 @@ import "./App.scss";
 import { useState } from "react";
 import Todo from "./views/Todo";
 import Covid from "./views/Covid";
+import { CountDown, ClassCountDown } from "./views/CountDown";
 function App() {
   let [name, setName] = useState("Vương");
   const [address, setAddress] = useState();
@@ -47,11 +48,16 @@ function App() {
     currentTodos = currentTodos.filter((item) => item.id !== id);
     setTodos(currentTodos);
   };
+  const alertCountDown = () => {
+    alert("time out");
+  };
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Hello world with React and {name}</h1>
+        <CountDown alertCountDown={alertCountDown}></CountDown>
+        <ClassCountDown alertCountDown={alertCountDown}></ClassCountDown>
         <Covid></Covid>
         <Todo
           propsData={todos}
